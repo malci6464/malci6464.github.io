@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="plots.css" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+    <title>BOXPLOTS SMJ</title>
+
+    <style></style>
+  </head>
+  <body>
+    <div class="button-layout">
+      <button
+        class="ySelectButton"
+        value="1"
+        onclick="updateY(this.value)"
+        id="skill"
+      >
+        Skill score
+      </button>
+      <button
+        class="ySelectButton"
+        value="2"
+        onclick="updateY(this.value)"
+        id="experience"
+      >
+        Experience
+      </button>
+      <button
+        class="ySelectButton"
+        value="3"
+        onclick="updateY(this.value)"
+        id="percent"
+      >
+        % correct
+      </button>
+
+      <div id="switch-text">
+        <p>Individuals</p>
+        <div class="switch-container">
+          <input type="checkbox" id="switch" onclick="scatterEvent()" />
+          <label for="switch" class="switch-label">
+            <div class="switch-rail">
+              <div class="switch-slider"></div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </div> <!-- closing div for button layout-->
+
+    <div id="grid-container"></div>
+
+    <!-- item score div - maybe empty -->
+    <div id="item-score"></div>
+   
+    <script type="module" src="./main.js"></script>
+    <!-- <script type="module" src="./data.js"></script>
+    <script type="module" src="./globals.js"></script>
+    <script type="module" src="./buildChart.js"></script>
+    <script type="module" src="./buildDframes.js"></script>
+    <script type="module" src="./dataProcess.js"></script> -->
+
+
+   <!-- change function calls in html - just add event listeners 
+    - this.value potentially not available with modules -->
+  </body>
+</html>
