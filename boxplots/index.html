@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- stylesheet not required as asset due to webpack build config -->
+    <!-- <link rel="stylesheet" href="./src/plots.css" /> -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+    <title>BOXPLOTS SMJ</title>
+
+    <style></style>
+  </head>
+  <body>
+    <div class="button-layout" id="btn-group">
+      <button
+        class="ySelectButton"
+        value="1"
+        id="skill"
+      >
+        Skill score
+      </button>
+      <button
+        class="ySelectButton"
+        value="2"
+        id="experience"
+      >
+        Experience
+      </button>
+      <button
+        class="ySelectButton"
+        value="3"
+        id="percent"
+      >
+        % correct
+      </button>
+
+      <div id="switch-text">
+        <p>Individuals</p>
+        <div class="switch-container">
+          <input type="checkbox" id="switch"  />
+          <label for="switch" class="switch-label">
+            <div class="switch-rail">
+              <div class="switch-slider"></div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </div> <!-- closing div for button layout-->
+
+    <div id="grid-container"></div>
+
+    <!-- item score div - maybe empty -->
+    <div id="item-score"></div>
+   
+    <!-- references build script nor original index.js -->
+    <script src="main.js"></script>
+
+  </body>
+</html>

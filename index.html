@@ -8,10 +8,12 @@
     />
     <!-- stylesheet not required as asset due to webpack build config -->
     <!-- <link rel="stylesheet" href="./src/plots.css" /> -->
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script> -->
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/no/no-all.js"></script>
 
-    <title>BOXPLOTS SMJ</title>
+    <title>AIRPORT TRAFFIC</title>
 
     <style></style>
   </head>
@@ -53,13 +55,110 @@
 
     </div> <!-- closing div for button layout-->
 
-    <div id="grid-container"></div>
+    <div id="container"></div>
+    <script >
+var data2 = [{
+            id: 'oslo',
+            lat: 59.507222,
+            lon: 10.1275,
+            population:1445632,
+        }, {
+            id: 'oslo 2',
+            lat: 58.483056,
+            lon: 11.893611,
+            population:1445,
+            marker: {
+                fillColor: '#Ff5232',
+                lineWidth: 16,
+                lineColor: Highcharts.getOptions().colors[1]
+            }
+        }]
 
-    <!-- item score div - maybe empty -->
-    <div id="item-score"></div>
-   
-    <!-- references build script nor original index.js -->
-    <script src="main.js"></script>
+// Initialize the chart
+var chart = Highcharts.mapChart('container', {
+
+    title: {
+        text: 'Highmaps simple flight routes demo'
+    },
+
+    legend: {
+        align: 'left',
+        layout: 'vertical',
+        floating: true
+    },
+
+    mapNavigation: {
+        enabled: true
+    },
+
+    tooltip: {
+        formatter: function () {
+            return this.point.id + (
+                this.point.lat ?
+                    '<br>Lat: ' + this.point.lat + ' Lon: ' + this.point.lon : ''
+            );
+        }
+    },
+
+    plotOptions: {
+        series: {
+            marker: {
+                fillColor: '#FFFFFF',
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[1]
+            }
+        }
+    },
+
+    series: [{
+        // Use the gb-all map with no data as a basemap
+        mapData: Highcharts.maps['countries/no/no-all'],
+        name: 'Basemap',
+        borderColor: '#707070',
+        nullColor: 'rgba(200, 200, 200, 0.3)',
+        showInLegend: false
+    }, {
+        name: 'Separators',
+        type: 'mapline',
+        data: Highcharts.geojson(Highcharts.maps['countries/no/no-all'], 'mapline'),
+        color: '#707070',
+        showInLegend: false,
+        enableMouseTracking: false
+    }, {
+        // Specify cities using lat/lon
+        type: 'mappoint',
+        name: 'Cities',
+        dataLabels: {
+            format: '{point.id}'
+        },
+        // Use id instead of name to allow for referencing points later using
+        // chart.get
+        data: data2,
+    }]
+});
+
+
+
+
+
+    </script>
 
   </body>
+  <style>
+#container {
+    height: 680px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+
+
+
+  </style>
 </html>
