@@ -22,72 +22,98 @@
   </head>
   <body>
     <div class="button-layout" id="btn-group">
-      <button
-        class="ySelectButton"
-        value="1"
-        id="skill"
-      >
-        Skill score
-      </button>
-      <button
-        class="ySelectButton"
-        value="2"
-        id="experience"
-      >
-        Experience
-      </button>
-      <button
-        class="ySelectButton"
-        value="3"
-        id="percent"
-      >
-        % correct
-      </button>
-
-      <div id="switch-text">
-        <p>Individuals</p>
-        <div class="switch-container">
-          <input type="checkbox" id="switch"  />
-          <label for="switch" class="switch-label">
-            <div class="switch-rail">
-              <div class="switch-slider"></div>
-            </div>
-          </label>
-        </div>
+     
       </div>
 
     </div> <!-- closing div for button layout-->
+<div id="container">
+    <div id="container-int"></div>
+    <div id="container-bar"></div>
+</div>
 
-    <div id="container"></div>
+
+
+
     <script >
-var data2 = [{
-            id: 'oslo',
-            lat: 59.507222,
-            lon: 10.1275,
-            population:1445632,
-        }, {
-            id: 'oslo 2',
-            lat: 58.483056,
-            lon: 11.893611,
-            population:1445,
-            marker: {
-                fillColor: '#Ff5232',
-                lineWidth: 16,
-                lineColor: '#ff5232'
-            }
-        }]
+const cats =["type of traffic","domestic/international flights","passenger group","quarter","contents"]
+const airports=["Oslo Gardermoen","Stavanger Sola","Bergen Flesland","Trondheim Vornes","Alta","Andenes Andoya","Bardufoss","Berlevog","Bodo","Bronnoysund Bronnoy","Botsfjord","Fagernes Leirin","Floro","Forde Bringeland","Hammerfest","Harstad/Narvik Evenes","Hasvik","Haugesund Karmoy","Honningsvog Valan","Kirkenes Hoybuktmoen","Kristiansand Kjevik","Kristiansund Kvernberget","Lakselv Banak","Mehamn","Mo i Rana Rossvold","Molde oro","Mosjoen Kjorstad","Moss Rygge","Namsos","Narvik Framnes","Notodden","Roros","Rorvik Ryum","Rost","Sandane Anda","Sandefjord Torp","Sandnessjoen Stokka","Skien Geitryggen","Sogndal Haukosen","Stokmarknes Skagen","Stord Sorstokken","Svalbard Longyear","Svolvor Helle","Sorkjosen","Tromso Langnes","Vadso","Vardo Svartnes","Vestvogoy Leknes","Voroy","orland","orsta-Volda Hovden","olesund Vigra"]
+
+
+var dataSet = [
+{	id:	"	Oslo Gardermoen	"	,	name:	"	Oslo Gardermoen	"	,	lat:	60.197552	,	lon:	11.100415	,	total:	2338335672	,	data: [	2338335672	]	},
+{	id:	"	Stavanger Sola	"	,	name:	"	Stavanger Sola	"	,	lat:	58.87266318	,	lon:	5.635997456	,	total:	392913108	,	data: [	392913108	]	},
+{	id:	"	Bergen Flesland	"	,	name:	"	Bergen Flesland	"	,	lat:	60.28949884	,	lon:	5.21749913	,	total:	578928856	,	data: [	578928856	]	},
+{	id:	"	Trondheim Vornes	"	,	name:	"	Trondheim Vornes	"	,	lat:	63.45477	,	lon:	10.92513	,	total:	402606824	,	data: [	402606824	]	},
+{	id:	"	Alta	"	,	name:	"	Alta	"	,	lat:	69.97716	,	lon:	23.35952	,	total:	36826216	,	data: [	36826216	]	},
+{	id:	"	Andenes Andoya	"	,	name:	"	Andenes Andoya	"	,	lat:	69.29133	,	lon:	16.13968	,	total:	7503836	,	data: [	7503836	]	},
+{	id:	"	Bardufoss	"	,	name:	"	Bardufoss	"	,	lat:	69.05483	,	lon:	18.54067	,	total:	21180864	,	data: [	21180864	]	},
+{	id:	"	Berlevog	"	,	name:	"	Berlevog	"	,	lat:	70.87165	,	lon:	29.03289	,	total:	2756020	,	data: [	2756020	]	},
+{	id:	"	Bodo	"	,	name:	"	Bodo	"	,	lat:	67.26439	,	lon:	14.34775	,	total:	197941608	,	data: [	197941608	]	},
+{	id:	"	Bronnoysund Bronnoy	"	,	name:	"	Bronnoysund Bronnoy	"	,	lat:	65.45953	,	lon:	12.21093	,	total:	17066972	,	data: [	17066972	]	},
+{	id:	"	Botsfjord	"	,	name:	"	Botsfjord	"	,	lat:	70.60016427	,	lon:	29.68899724	,	total:	4681700	,	data: [	4681700	]	},
+{	id:	"	Fagernes Leirin	"	,	name:	"	Fagernes Leirin	"	,	lat:	61.01064	,	lon:	9.29272	,	total:	327276	,	data: [	327276	]	},
+{	id:	"	Floro	"	,	name:	"	Floro	"	,	lat:	61.58297	,	lon:	5.02096	,	total:	16951872	,	data: [	16951872	]	},
+{	id:	"	Forde Bringeland	"	,	name:	"	Forde Bringeland	"	,	lat:	61.39154	,	lon:	5.7605	,	total:	8397992	,	data: [	8397992	]	},
+{	id:	"	Hammerfest	"	,	name:	"	Hammerfest	"	,	lat:	70.67964	,	lon:	23.67036	,	total:	20693264	,	data: [	20693264	]	},
+{	id:	"	Harstad/Narvik Evenes	"	,	name:	"	Harstad/Narvik Evenes	"	,	lat:	68.49025	,	lon:	16.68668	,	total:	66800680	,	data: [	66800680	]	},
+{	id:	"	Hasvik	"	,	name:	"	Hasvik	"	,	lat:	70.48655	,	lon:	22.14167	,	total:	3370776	,	data: [	3370776	]	},
+{	id:	"	Haugesund Karmoy	"	,	name:	"	Haugesund Karmoy	"	,	lat:	59.34292	,	lon:	5.21524	,	total:	58352400	,	data: [	58352400	]	},
+{	id:	"	Honningsvog Valan	"	,	name:	"	Honningsvog Valan	"	,	lat:	71.0095	,	lon:	25.98552	,	total:	4221776	,	data: [	4221776	]	},
+{	id:	"	Kirkenes Hoybuktmoen	"	,	name:	"	Kirkenes Hoybuktmoen	"	,	lat:	69.72316	,	lon:	29.87605	,	total:	30916148	,	data: [	30916148	]	},
+{	id:	"	Kristiansand Kjevik	"	,	name:	"	Kristiansand Kjevik	"	,	lat:	58.20414	,	lon:	8.08327	,	total:	93519788	,	data: [	93519788	]	},
+{	id:	"	Kristiansund Kvernberget	"	,	name:	"	Kristiansund Kvernberget	"	,	lat:	63.11398	,	lon:	7.82551	,	total:	34017104	,	data: [	34017104	]	},
+{	id:	"	Lakselv Banak	"	,	name:	"	Lakselv Banak	"	,	lat:	70.06704	,	lon:	24.96706	,	total:	6725464	,	data: [	6725464	]	},
+{	id:	"	Mehamn	"	,	name:	"	Mehamn	"	,	lat:	71.02989	,	lon:	27.82453	,	total:	3806928	,	data: [	3806928	]	},
+{	id:	"	Mo i Rana Rossvold	"	,	name:	"	Mo i Rana Rossvold	"	,	lat:	66.36408	,	lon:	14.30186	,	total:	13160960	,	data: [	13160960	]	},
+{	id:	"	Molde oro	"	,	name:	"	Molde oro	"	,	lat:	62.74666	,	lon:	7.25922	,	total:	42457744	,	data: [	42457744	]	},
+{	id:	"	Mosjoen Kjorstad	"	,	name:	"	Mosjoen Kjorstad	"	,	lat:	65.78309	,	lon:	13.21557	,	total:	10588924	,	data: [	10588924	]	},
+{	id:	"	Moss Rygge	"	,	name:	"	Moss Rygge	"	,	lat:	59.37547	,	lon:	10.78249	,	total:	95552952	,	data: [	95552952	]	},
+{	id:	"	Namsos	"	,	name:	"	Namsos	"	,	lat:	64.47214	,	lon:	11.5779	,	total:	6481368	,	data: [	6481368	]	},
+{	id:	"	Narvik Framnes	"	,	name:	"	Narvik Framnes	"	,	lat:	68.49025	,	lon:	16.68668	,	total:	2099868	,	data: [	2099868	]	},
+{	id:	"	Notodden	"	,	name:	"	Notodden	"	,	lat:	59.56555	,	lon:	9.22104	,	total:	272280	,	data: [	272280	]	},
+{	id:	"	Roros	"	,	name:	"	Roros	"	,	lat:	62.58088	,	lon:	11.34118	,	total:	2010696	,	data: [	2010696	]	},
+{	id:	"	Rorvik Ryum	"	,	name:	"	Rorvik Ryum	"	,	lat:	64.83692	,	lon:	11.14261	,	total:	5982580	,	data: [	5982580	]	},
+{	id:	"	Rost	"	,	name:	"	Rost	"	,	lat:	67.5267	,	lon:	12.1038	,	total:	2434828	,	data: [	2434828	]	},
+{	id:	"	Sandane Anda	"	,	name:	"	Sandane Anda	"	,	lat:	61.8301	,	lon:	6.10818	,	total:	5214288	,	data: [	5214288	]	},
+{	id:	"	Sandefjord Torp	"	,	name:	"	Sandefjord Torp	"	,	lat:	59.18056	,	lon:	10.25717	,	total:	160850144	,	data: [	160850144	]	},
+{	id:	"	Sandnessjoen Stokka	"	,	name:	"	Sandnessjoen Stokka	"	,	lat:	65.95806	,	lon:	12.47109	,	total:	12171800	,	data: [	12171800	]	},
+{	id:	"	Skien Geitryggen	"	,	name:	"	Skien Geitryggen	"	,	lat:	59.1844	,	lon:	9.5681	,	total:	2029328	,	data: [	2029328	]	},
+{	id:	"	Sogndal Haukosen	"	,	name:	"	Sogndal Haukosen	"	,	lat:	61.15594	,	lon:	7.13583	,	total:	12691332	,	data: [	12691332	]	},
+{	id:	"	Stokmarknes Skagen	"	,	name:	"	Stokmarknes Skagen	"	,	lat:	68.5799	,	lon:	15.03112	,	total:	12477584	,	data: [	12477584	]	},
+{	id:	"	Stord Sorstokken	"	,	name:	"	Stord Sorstokken	"	,	lat:	59.79183	,	lon:	5.34148	,	total:	2971584	,	data: [	2971584	]	},
+{	id:	"	Svalbard Longyear	"	,	name:	"	Svalbard Longyear	"	,	lat:	78.2462	,	lon:	15.46248	,	total:	14005656	,	data: [	14005656	]	},
+{	id:	"	Svolvor Helle	"	,	name:	"	Svolvor Helle	"	,	lat:	68.2417	,	lon:	14.66708	,	total:	9100036	,	data: [	9100036	]	},
+{	id:	"	Sorkjosen	"	,	name:	"	Sorkjosen	"	,	lat:	69.78596	,	lon:	20.95006	,	total:	3790976	,	data: [	3790976	]	},
+{	id:	"	Tromso Langnes	"	,	name:	"	Tromso Langnes	"	,	lat:	69.68179	,	lon:	18.91541	,	total:	216986216	,	data: [	216986216	]	},
+{	id:	"	Vadso	"	,	name:	"	Vadso	"	,	lat:	70.06496	,	lon:	29.84643	,	total:	14187280	,	data: [	14187280	]	},
+{	id:	"	Vardo Svartnes	"	,	name:	"	Vardo Svartnes	"	,	lat:	70.35481	,	lon:	31.04628	,	total:	5450556	,	data: [	5450556	]	},
+{	id:	"	Vestvogoy Leknes	"	,	name:	"	Vestvogoy Leknes	"	,	lat:	68.15286	,	lon:	13.61038	,	total:	12253704	,	data: [	12253704	]	},
+{	id:	"	Voroy	"	,	name:	"	Voroy	"	,	lat:	67.65481	,	lon:	12.72618	,	total:	802192	,	data: [	802192	]	},
+{	id:	"	orland	"	,	name:	"	orland	"	,	lat:	63.69954	,	lon:	9.61236	,	total:	916120	,	data: [	916120	]	},
+{	id:	"	orsta-Volda Hovden	"	,	name:	"	orsta-Volda Hovden	"	,	lat:	62.17821	,	lon:	6.06838	,	total:	10970012	,	data: [	10970012	]	},
+{	id:	"	olesund Vigra	"	,	name:	"	olesund Vigra	"	,	lat:	62.56019	,	lon:	6.11342	,	total:	97797672	,	data: [	97797672	]	},
+]
 
 // Initialize the chart
-var chart = Highcharts.mapChart('container', {
-
+var chart = Highcharts.mapChart('container-int', {
+    chart: {
+        outerHeight: 900,
+    },
     title: {
-        text: 'Highmaps simple flight routes demo'
+        text: 'NORWEGIAN AIRPORT PASSENGER DATA'
+    },
+    subtitle: {
+        text: 'Source: StatBank source table 08508'
     },
 
     legend: {
         align: 'left',
         layout: 'vertical',
-        floating: true
+        floating: true,
+        enabled: false,
+    },
+    credits: {
+        enabled: false,
     },
 
     mapNavigation: {
@@ -97,8 +123,8 @@ var chart = Highcharts.mapChart('container', {
     tooltip: {
         formatter: function () {
             return this.point.id + (
-                this.point.lat ?
-                    '<br>Lat: ' + this.point.lat + ' Lon: ' + this.point.lon : ''
+                this.point.total ?
+                    '<br>Total: ' + this.point.total : ''
             );
         }
     },
@@ -108,13 +134,12 @@ var chart = Highcharts.mapChart('container', {
             marker: {
                 fillColor: '#FFFFFF',
                 lineWidth: 2,
-                lineColor: Highcharts.getOptions().colors[1]
+                lineColor: '#FF5232'
             }
         }
     },
 
     series: [{
-        // Use the gb-all map with no data as a basemap
         mapData: Highcharts.maps['countries/no/no-all'],
         name: 'Basemap',
         borderColor: '#707070',
@@ -134,10 +159,46 @@ var chart = Highcharts.mapChart('container', {
         dataLabels: {
             format: '{point.id}'
         },
-        // Use id instead of name to allow for referencing points later using
-        // chart.get
-        data: data2,
+        data: dataSet,
     }]
+});
+
+Highcharts.chart('container-bar', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: null
+    },
+    subtitle: {
+        text: null
+    },
+    xAxis: {
+        categories: airports,
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Number of passengers'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        footerFormat: '</table>',
+        shared: false,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+            //add data labels - airports
+        }
+    },
+    series: dataSet
 });
 
 
@@ -149,9 +210,23 @@ var chart = Highcharts.mapChart('container', {
   </body>
   <style>
 #container {
-    height: 80vh;
-    min-width: 510px;
-    /* max-width: 800px; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 600px;
+    overflow: scroll;
+    
+}
+
+#container-int {
+    width: 100%;
+    margin: 0 auto;
+    height: 70%;
+}
+
+#container-bar {
+    width: 70%;
+    
     margin: 0 auto;
 }
 
