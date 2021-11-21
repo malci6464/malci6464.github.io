@@ -6,33 +6,48 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <!-- stylesheet not required as asset due to webpack build config -->
-    <!-- <link rel="stylesheet" href="./src/plots.css" /> -->
-    <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script> -->
     <script src="https://code.highcharts.com/maps/highmaps.js"></script>
-<script src="https://code.highcharts.com/mapdata/countries/no/no-all.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
-
-
+    <script src="https://code.highcharts.com/mapdata/countries/no/no-all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
 
     <title>AIRPORT TRAFFIC</title>
 
     <style></style>
   </head>
   <body>
-    <div class="button-layout" id="btn-group">
-        <select class="form-control" id="quart" onchange="newDataFunc(value)">
-            <option value="">-- Select --</option>
-                 
-                
-            </select>
+      <h3>Customise the data you would like to view (map and bar chart):</h3>
+      <p>** Refresh the page to reset the filters</p>
+    <div class="button-layout" id="btn-group" style="display: flex; align-items:center; flex-direction: row;">
+        <div style="padding: 12px;">
+        <p>Airports:</p>
+        <select class="form-control" id="port" onchange="airportSelect(value)">
+            <option value="default">-- All airports --</option>
+        </select>
+        <br>
+    </div>
+    <div style="padding: 12px;">
+        <p>Year:</p>
+        <select class="form-control" id="year" onchange="newYearFunc(value)">
+            <option value="default">-- All years (09-21) --</option>
+        </select>
+        <br>
+    </div>
+    <div style="padding: 12px;">
+        <p>A single annual quarter:</p>
+        <select class="form-control" id="quart" onchange="quartSelect(value)">
+            <option value="default">-- All Quarter's --</option>
+        </select>
+        <br>
+    </div>
+        
 
       </div>
 
     </div> <!-- closing div for button layout-->
-<div id="container">
+<div id="container" style="text-align: center;">
     <div id="container-int"></div>
+    <h4>Hover over each aiport to view the totals as per the selected data</h4>
+
     <div id="container-bar"></div>
 </div>
 
@@ -40,30 +55,16 @@
 
 
     <script >
+//define globals
+// current year - quarter - airport 
+//sorting - 
+const years = [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+
+const titles = ["Year Only", "Year and month", "Airport only"]
+
 const quarts =[
-"2009K1","2009K2","2009K3","2009K4","2010K1","2010K2","2010K3","2010K4","2011K1","2011K2","	2011K3	","	2011K4	","	2012K1	","	2012K2	","	2012K3	","	2012K4	","	2013K1	","	2013K2	","	2013K3	","	2013K4	","	2014K1	","	2014K2	","	2014K3	","	2014K4	","	2015K1	","	2015K2	","	2015K3	","	2015K4	","	2016K1	","	2016K2	","	2016K3	","	2016K4	","	2017K1	","	2017K2	","	2017K3	","	2017K4	","	2018K1	","	2018K2	","	2018K3	","	2018K4	","	2019K1	","	2019K2	","	2019K3	","	2019K4	","	2020K1	","	2020K2	","	2020K3	","	2020K4	","	2021K1	","	2021K2	","	2021K3"
+"2009K1","2009K2","2009K3","2009K4","2010K1","2010K2","2010K3","2010K4","2011K1","2011K2","2011K3","2011K4","2012K1","2012K2","2012K3","2012K4","2013K1","2013K2","2013K3","2013K4","2014K1","2014K2","2014K3","2014K4","2015K1","2015K2","2015K3","2015K4","2016K1","2016K2","2016K3","2016K4","2017K1","2017K2","2017K3","2017K4","2018K1","2018K2","2018K3","2018K4","2019K1","2019K2","2019K3","2019K4","2020K1","2020K2","2020K3","2020K4","2021K1","2021K2","2021K3"
 ]
-
-let newQ = quarts.map(each => each.trim())
-console.log(newQ)
-// var select = document.getElementById("example-select");
-// for(index in example_array) {
-//     select.options[select.options.length] = new Option(example_array[index], index);
-// }
-var up = document.getElementById('quart');
-        
-        
-  
-        // Main function
-            for (var i = 0; i < quarts.length; i++) {
-                var optn = quarts[i];
-                var el = document.createElement("option");
-                el.textContent = optn;
-                el.value = optn;
-                up.appendChild(el);
-            }
-        
-
 
 const airports=[
 "	Alta	"	,
@@ -120,8 +121,39 @@ const airports=[
 "	Ålesund Vigra	"	,
 ]
 
+// build dropdown - quart
+var quar = document.getElementById('quart'); 
+    for (var i = 0; i < quarts.length; i++) {
+        var optn = quarts[i];
+        var el = document.createElement("option");
+        el.textContent = optn;
+        el.value = optn;
+        quar.appendChild(el);
+    }
+
+// build dropdown - year
+var yr = document.getElementById('year'); 
+    for (var i = 0; i < years.length; i++) {
+        var optn = years[i];
+        var el = document.createElement("option");
+        el.textContent = optn;
+        el.value = optn;
+        yr.appendChild(el);
+    }
+
+// build dropdown - year
+var pt = document.getElementById('port'); 
+    for (var i = 0; i < airports.length; i++) {
+        var optn = airports[i];
+        var el = document.createElement("option");
+        el.textContent = optn;
+        el.value = optn;
+        pt.appendChild(el);
+    }
+        
+
 var dataSet = [
-{	id:	"	Alta	",	name:	"	Alta	"	,	lat:	69.97716	,	lon:	23.35952	,	qdata:[	84478	,	86145	,	96275	,	79111	,	72983	,	83949	,	103896	,	79587	,	76165	,	99245	,	105507	,	82880	,	82739	,	92200	,	104036	,	79558	,	77889	,	99878	,	110145	,	77976	,	75717	,	109575	,	113740	,	85623	,	82664	,	108922	,	119058	,	91195	,	83083	,	103068	,	113428	,	87067	,	88106	,	103165	,	111514	,	88713	,	86113	,	109564	,	114497	,	84875	,	87542	,	99602	,	108366	,	84556	,	71982	,	23698	,	64318	,	42949	,	35167	,	51685	,	93972	]},
+{	id:	"	Alta	",	name:	"Alta"	,	lat:	69.97716	,	lon:	23.35952	,	qdata:[	84478	,	86145	,	96275	,	79111	,	72983	,	83949	,	103896	,	79587	,	76165	,	99245	,	105507	,	82880	,	82739	,	92200	,	104036	,	79558	,	77889	,	99878	,	110145	,	77976	,	75717	,	109575	,	113740	,	85623	,	82664	,	108922	,	119058	,	91195	,	83083	,	103068	,	113428	,	87067	,	88106	,	103165	,	111514	,	88713	,	86113	,	109564	,	114497	,	84875	,	87542	,	99602	,	108366	,	84556	,	71982	,	23698	,	64318	,	42949	,	35167	,	51685	,	93972	]},
 {	id:	"	Andenes Andøya	",	name:	"	Andenes Andøya	"	,	lat:	69.29133	,	lon:	16.13968	,	qdata:[	14109	,	14726	,	15645	,	15276	,	14116	,	15090	,	16358	,	16183	,	15369	,	14387	,	16755	,	15625	,	15875	,	15270	,	18918	,	17295	,	17080	,	18686	,	24439	,	15745	,	15421	,	18000	,	19889	,	15774	,	15260	,	16908	,	19395	,	16591	,	16217	,	17242	,	19331	,	16249	,	16815	,	20389	,	23136	,	18420	,	19713	,	20150	,	21226	,	14223	,	14639	,	16743	,	19662	,	13944	,	12818	,	13212	,	22741	,	12718	,	9894	,	15514	,	22544	]},
 {	id:	"	Bardufoss	",	name:	"	Bardufoss	"	,	lat:	69.05483	,	lon:	18.54067	,	qdata:[	45391	,	45610	,	44458	,	41579	,	40556	,	49405	,	54641	,	45836	,	44841	,	50328	,	55881	,	46526	,	46905	,	54633	,	57595	,	50217	,	47470	,	55664	,	57975	,	52024	,	48273	,	58296	,	59192	,	55000	,	50767	,	61277	,	63841	,	54885	,	58898	,	62896	,	68579	,	54838	,	51951	,	66814	,	70225	,	57197	,	52106	,	64333	,	68056	,	57617	,	52631	,	67440	,	68276	,	58162	,	48181	,	22744	,	37611	,	25832	,	22043	,	27729	,	41531	]},
 {	id:	"	Bergen Flesland	",	name:	"	Bergen Flesland	"	,	lat:	60.28949884	,	lon:	5.21749913	,	qdata:[	1113064	,	1297480	,	1276205	,	1215695	,	1151751	,	1261772	,	1449966	,	1326225	,	1231145	,	1502669	,	1545293	,	1462133	,	1356794	,	1533782	,	1594817	,	1475099	,	1348375	,	1710145	,	1770322	,	1569459	,	1422776	,	1694736	,	1718088	,	1498147	,	1314035	,	1635294	,	1683602	,	1438744	,	1303314	,	1606964	,	1671418	,	1426696	,	1298759	,	1642710	,	1743946	,	1478157	,	1324050	,	1692236	,	1807179	,	1547069	,	1408749	,	1730321	,	1832449	,	1587866	,	1163543	,	342664	,	694158	,	565095	,	442133	,	592294	,	1027275	]},
@@ -154,7 +186,7 @@ var dataSet = [
 {	id:	"	Rørvik Ryum	",	name:	"	Rørvik Ryum	"	,	lat:	64.83692	,	lon:	11.14261	,	qdata:[	10848	,	11849	,	12199	,	12140	,	12095	,	11992	,	13400	,	13286	,	12673	,	13147	,	14394	,	13694	,	12302	,	15378	,	15689	,	16174	,	14752	,	16731	,	16737	,	16333	,	16033	,	16452	,	16438	,	16754	,	15258	,	16487	,	16641	,	17402	,	15300	,	16715	,	16528	,	17325	,	17553	,	10741	,	10789	,	10772	,	10380	,	10992	,	11158	,	11565	,	11095	,	11230	,	11251	,	12870	,	10401	,	5937	,	13013	,	8593	,	5379	,	10150	,	13115	]},
 {	id:	"	Røst	",	name:	"	Røst	"	,	lat:	67.5267	,	lon:	12.1038	,	qdata:[	5106	,	5375	,	4897	,	5079	,	4927	,	5155	,	4964	,	4969	,	4593	,	6082	,	6123	,	6115	,	5733	,	6248	,	6154	,	5831	,	5157	,	5550	,	5583	,	4993	,	4888	,	5938	,	5386	,	5025	,	4760	,	5901	,	5295	,	4778	,	4913	,	6233	,	6152	,	5579	,	6044	,	5388	,	6252	,	4536	,	5523	,	6095	,	6201	,	4617	,	5201	,	5865	,	5758	,	4493	,	3814	,	3796	,	5619	,	3116	,	2005	,	4412	,	6676	]},
 {	id:	"	Sandane Anda	",	name:	"	Sandane Anda	"	,	lat:	61.8301	,	lon:	6.10818	,	qdata:[	13065	,	14154	,	13179	,	13002	,	8284	,	0	,	5544	,	13434	,	12384	,	13440	,	14461	,	12673	,	14041	,	14489	,	14217	,	17566	,	12621	,	13655	,	13924	,	13676	,	12273	,	13243	,	12273	,	11314	,	10524	,	12557	,	12683	,	12561	,	11147	,	13591	,	14476	,	12699	,	12212	,	13776	,	16560	,	12541	,	12520	,	14177	,	12960	,	13023	,	12339	,	12511	,	12843	,	11249	,	8329	,	2981	,	11058	,	6795	,	3531	,	7453	,	14728	]},
-{	id:	"	Sandefjord Torp	",	name:	"	Sandefjord Torp	"	,	lat:	59.18056	,	lon:	10.25717	,	qdata:[	348779	,	480336	,	560111	,	437492	,	373430	,	379340	,	479495	,	338689	,	278371	,	363792	,	396350	,	308032	,	295455	,	461719	,	526728	,	412604	,	364433	,	491246	,	555502	,	428230	,	375777	,	452763	,	507060	,	409935	,	355795	,	395100	,	430003	,	346611	,	305901	,	352994	,	397543	,	386542	,	388228	,	510552	,	572491	,	473347	,	434602	,	549423	,	594408	,	485500	,	437278	,	556009	,	581280	,	482137	,	349260	,	17501	,	172924	,	86445	,	56823	,	75876	,	256320	]},
+{	id:	"	Sandefjord Torp	",	name:	"Sandefjord Torp"	,	lat:	59.18056	,	lon:	10.25717	,	qdata:[	348779	,	480336	,	560111	,	437492	,	373430	,	379340	,	479495	,	338689	,	278371	,	363792	,	396350	,	308032	,	295455	,	461719	,	526728	,	412604	,	364433	,	491246	,	555502	,	428230	,	375777	,	452763	,	507060	,	409935	,	355795	,	395100	,	430003	,	346611	,	305901	,	352994	,	397543	,	386542	,	388228	,	510552	,	572491	,	473347	,	434602	,	549423	,	594408	,	485500	,	437278	,	556009	,	581280	,	482137	,	349260	,	17501	,	172924	,	86445	,	56823	,	75876	,	256320	]},
 {	id:	"	Sandnessjøen Stokka	",	name:	"	Sandnessjøen Stokka	"	,	lat:	65.95806	,	lon:	12.47109	,	qdata:[	28307	,	29705	,	31332	,	29366	,	30321	,	29908	,	31225	,	31550	,	29140	,	31271	,	33501	,	32363	,	32434	,	32875	,	35301	,	33277	,	32491	,	33590	,	34941	,	33497	,	27839	,	30392	,	31965	,	30308	,	27266	,	33632	,	34615	,	32258	,	27584	,	32659	,	35302	,	32130	,	31845	,	23422	,	26098	,	19775	,	19455	,	23422	,	20678	,	21360	,	19612	,	21637	,	21623	,	19049	,	15931	,	12123	,	22686	,	13061	,	9944	,	16494	,	24043	]},
 {	id:	"	Skien Geitryggen	",	name:	"	Skien Geitryggen	"	,	lat:	59.1844	,	lon:	9.5681	,	qdata:[	10175	,	11249	,	8110	,	10191	,	10926	,	10212	,	9214	,	14368	,	5955	,	13559	,	11465	,	13745	,	13408	,	10098	,	8778	,	10031	,	9932	,	8899	,	8213	,	8631	,	8199	,	8642	,	7910	,	8559	,	6542	,	6587	,	60	,	0	,	0	,	0	,	0	,	0	,	8	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	]},
 {	id:	"	Sogndal Haukåsen	",	name:	"	Sogndal Haukåsen	"	,	lat:	61.15594	,	lon:	7.13583	,	qdata:[	29529	,	31756	,	30619	,	28940	,	27864	,	24003	,	30621	,	29846	,	29701	,	30556	,	32394	,	29637	,	33038	,	28916	,	31267	,	30879	,	26765	,	30101	,	32931	,	29491	,	28360	,	29695	,	30287	,	26200	,	24218	,	27059	,	28984	,	27765	,	26392	,	28840	,	27856	,	28271	,	27139	,	29227	,	30577	,	27836	,	25453	,	28919	,	28474	,	27840	,	25435	,	27243	,	26292	,	25837	,	20162	,	16443	,	25463	,	15964	,	11528	,	18841	,	31405	]},
@@ -178,19 +210,49 @@ var dataSet = [
 
 //find totals
 function getTotal(data){
+    let dataN = data
     let barT = []
-    data.map( each => each['total'] = sumArr(each.qdata))
-    data.map( each => barT.push([each['name'], each['total']]))
-    console.log(barT)
-    return [data, barT]
+    dataN.map(each => each.name.trim())
+    dataN.map( each => each['total'] = sumArr(each.qdata))
+    dataN.map( each => barT.push([each['name'], each['total']]))
+    return [dataN, barT]
 }
+//if year filter data before calling this
+//quarter requires index
+// aiport requires filter also - maybe checkbox?
+
 
 function sumArr(data){
     let tempVal = data.reduce((a,b) => a + b, 0)
     return tempVal
 }
 
-let dataTotal = getTotalNewQuart(dataSet)[0]
+//init df
+let dataTotal = getTotal(dataSet)
+
+function findPort(data, port){
+    let df = data
+    let portData = df.filter( each => each[0].trim() === port )
+    return portData
+}
+
+function findPortMap(data, port){
+    let df = data
+    let portData = df.filter( each => (each.name).trim() === port)
+    return portData
+}
+
+function airportSelect(name){
+    if(name === 'default'){
+        updateCharts(getTotal(dataSet))
+    }
+    else{
+        nameT = name.trim()
+        let port = [findPortMap(dataTotal[0], nameT), findPort(dataTotal[1], nameT) ]
+        updateCharts(port)
+    }
+}
+
 
 function getTotalNewYear(data){
     let barT = []
@@ -200,71 +262,64 @@ function getTotalNewYear(data){
     return [data, barT]
 }
 
+function quartSelect(name){
+    let newN = name.trim()
+    let newData = getTotalNewQuart(getTotal(dataSet)[0], newN)
+    updateCharts(newData, true)
+}
+
 //requires qurt vR INDEX
 function getTotalNewQuart(data, name='2010K3'){
     let barT = []
     let res = getQIndex(name)
     res = parseInt(res)
-    console.log(res)
     data.map( each => each['total'] = each.qdata[res])
     data.map( each => barT.push([each['name'], each.qdata[res]]))
-    console.log(barT)
     return [data, barT]
 }
 
 function getQIndex(name){
-   // let newQ = quarts.map(each => each.trim()) 
-    let ind = newQ.indexOf(name)
-return ind
+    let ind = quarts.indexOf(name)
+    return ind
 }
 
-function newDataFunc(option){
-    console.log(option)
-    let dat = getTotalNewQuart(dataSet, option)
-    
+
+function updateCharts(data, tosort= false){
+    console.log(data)
     chart.series[2].update({
-      data: dat[0]
+      data: data[0]
     }, false, false, false);
 
-    chart2.series[0].update({
-      data: dat[1]
+    if(tosort){
+        chart2.series[0].update({
+      data: sortPorts(data[1], 'total')
     }, false, false, false);
+    }
+    else{
+        chart2.series[0].update({
+      data: data[1]
+    }, false, false, false);
+    }
+    
 
     chart.redraw();
     chart2.redraw();
-  
 }
 
 
 //sorting
 function sortPorts(data, val){
-    let newData = []
-    //sort
-    data.map( each => newData.push( [each.id , each[val]]))
-    let sorted = newData.sort((a, b) => a[1] - b[1]);
+    let sorted = data.sort((a, b) => a[1] - b[1]);
     //append index
+    //console.log(sorted)
     sorted.map( (each , index) => each.push(  index  ))
     return sorted
 }
 
+//init view for sort
+let ports = sortPorts(dataTotal[1], 'total')
 
-function findAirport(data, currentAirport){
-    let match = data.find( port => port.id === currentAirport[0])   
-    match['index'] = currentAirport[2]
-    return match
-}
 
-function buildDF(data, newData){
-    let df = []
-    newData.map( (each, index) =>  df.push(
-        findAirport(data, newData[index])
-    ))
-    return df
-}
-
-let ports = sortPorts(dataSet, 'total')
-//includes new prop index
-let ordered = buildDF(dataSet, ports)
 
 // Initialize the chart
 var chart = Highcharts.mapChart('container-int', {
@@ -272,10 +327,10 @@ var chart = Highcharts.mapChart('container-int', {
         outerHeight: 900,
     },
     title: {
-        text: 'NORWEGIAN AIRPORT PASSENGER DATA'
+        text: 'NORWEGIAN AIRPORT PASSENGER DATA (TOTALS)'
     },
     subtitle: {
-        text: 'All commercial flights (domestic & international) <br> Source: StatBank'
+        text: 'All commercial flights (domestic & international) <br> Source: StatBank - https://www.ssb.no/en/statbank/table/08508'
     },
 
     legend: {
@@ -297,7 +352,7 @@ var chart = Highcharts.mapChart('container-int', {
         formatter: function () {
             return this.point.id + (
                 this.point.total ?
-                    '<br>Total: ' + this.point.total : ''
+                    '<br>Total passengers: ' + this.point.total : ''
             );
         }
     },
@@ -332,13 +387,13 @@ var chart = Highcharts.mapChart('container-int', {
         dataLabels: {
             format: '{point.id}'
         },
-        data: dataTotal,
+        data: dataTotal[0],
     }]
 });
 
 var chart2 = Highcharts.chart('container-bar', {
     chart: {
-        type: 'column'
+        type: 'bar'
     },
     title: {
         text: null
@@ -377,20 +432,21 @@ var chart2 = Highcharts.chart('container-bar', {
         useHTML: true
     },
     plotOptions: {
-        column: {
-            pointPadding: 0,
-            pointWidth: 12,
-            borderWidth: 0,
-            dataLabels: {
-                enabled: true
-            },
+        bar: {
+            pointPadding: 0.05,
+            // pointWidth: 12,
+            // borderWidth: 0,
+            // dataLabels: {
+            //     enabled: true
+            // },
             
         }
     },
     series:[{ 
         name:"Total",
         
-        data: getTotalNewQuart(dataSet)[1]}]
+        data: ports
+    }]
 });
 
 
@@ -414,22 +470,14 @@ var chart2 = Highcharts.chart('container-bar', {
     width: 100%;
     margin: 0 auto;
     padding:12px;
-    height: 70%;
+    height: 65%;
 }
 
 #container-bar {
-    width: 100%;
+    width: 95%;
     
     margin: 0 auto;
 }
-
-.loading {
-    margin-top: 10em;
-    text-align: center;
-    color: gray;
-}
-
-
 
   </style>
 </html>
