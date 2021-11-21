@@ -27,8 +27,8 @@
     </div>
     <div style="padding: 12px;">
         <p>Year:</p>
-        <select class="form-control" id="year" onchange="newYearFunc(value)">
-            <option value="default">-- All years (09-21) --</option>
+        <select class="form-control" id="year" onchange="yearSelect(value)">
+            <option value="default">-- All years (2009-2021) --</option>
         </select>
         <br>
     </div>
@@ -254,12 +254,41 @@ function airportSelect(name){
 }
 
 
-function getTotalNewYear(data){
+function yearSelect(year){
+    let yearN = year.trim()
+    let df = getTotal(dataSet)[0]
+    if(yearN === 'default'){
+        updateCharts(df)
+    }
+    else{
     let barT = []
-    data.map( each => each['total'] = sumArr(each['2010K3']))
-    data.map( each => barT.push([each['name'], each['total']]))
+    let annualData = []
+    let res = getYearInd(yearN)
+    df.map( each => each['total'] = iterateArr(each,res))
+    df.map( each => barT.push([each['name'], each['total']]))
     console.log(barT)
-    return [data, barT]
+    updateCharts([df, barT], true)
+    
+    }
+}
+
+function iterateArr(row,  vals){
+    let dd = []
+    let newT = vals.map( each => dd.push(row.qdata[each]) )
+    let newS = sumArr(dd)
+    return newS
+}
+
+function getYearInd(yr){
+    let temp = []
+    let newYrs = quarts.filter( (each, index) => each.indexOf(yr) !== -1 ? temp.push(index) : '')
+    return temp
+}
+
+function getYearVal(df, val){
+    let newDD = []
+    df.map( each => newDD.push(each.qdata[val]))
+    return newDD
 }
 
 function quartSelect(name){
