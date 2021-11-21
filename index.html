@@ -148,10 +148,10 @@ var dataSet = [
 ]
 
 //sorting
-function sortPorts(data){
+function sortPorts(data, val){
     let newData = []
     //sort
-    data.map( each => newData.push( [each.id , each.total]))
+    data.map( each => newData.push( [each.id , each[val]]))
     let sorted = newData.sort((a, b) => a[1] - b[1]);
     //append index
     sorted.map( (each , index) => each.push(  index  ))
@@ -162,7 +162,6 @@ function sortPorts(data){
 function findAirport(data, currentAirport){
     let match = data.find( port => port.id === currentAirport[0])   
     match['index'] = currentAirport[2]
-    console.log(match)
     return match
 }
 
@@ -171,11 +170,10 @@ function buildDF(data, newData){
     newData.map( (each, index) =>  df.push(
         findAirport(data, newData[index])
     ))
-    console.log(df)
     return df
 }
 
-let ports = sortPorts(dataSet)
+let ports = sortPorts(dataSet, 'total')
 //includes new prop index
 let ordered = buildDF(dataSet, ports)
 
@@ -295,8 +293,8 @@ Highcharts.chart('container-bar', {
             pointWidth: 12,
             borderWidth: 0,
             dataLabels: {
-            format: '{point.id}'
-        },
+                enabled: true
+            }
         }
     },
     series: ordered
@@ -322,6 +320,7 @@ Highcharts.chart('container-bar', {
 #container-int {
     width: 100%;
     margin: 0 auto;
+    padding:12px;
     height: 70%;
 }
 

@@ -1,0 +1,108 @@
+<!-- Mal for Highcharts - API: Lag egne datasett -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "https://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Statistics Norway Statbank API, http POST example with Highcharts</title>
+		
+		<!-- 1. Add these JavaScript inclusions in the head of your page  -->
+		<!-- json-stat.js - JSON-stat Javascript Toolkit (JJT) -->
+		<script type="text/javascript" src="https://json-stat.org/lib/json-stat.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+
+	</head>
+
+	<body>
+		<script type="text/javascript">
+		
+		/* POST url for query */
+		  url="https://data.ssb.no/api/v0/en/table/05803";
+
+		  query=
+		  /* Api query - you may paste the code from API console */
+			  {
+			  "query": [
+			    {
+			      "code": "ContentsCode",
+			      "selection": {
+			        "filter": "item",
+			        "values": [
+			          "Tilvekst"
+			        ]
+			      }
+			    },
+			    /* use "filter": "top" */
+			    {
+			      "code": "Tid",
+			      "selection": {
+			        "filter": "top",
+			        "values": [
+			          "200"
+			        ]
+			      }
+			    }
+			  ],
+			  "response": {
+			    "format": "json-stat"
+			  }
+			}
+			/* end API-query */
+		;
+		/* jquery post function */
+	  $.post(url,JSON.stringify(query), function main(obj){
+      ds=JSONstat(obj).Dataset(0);
+     
+      /*jQuery check */
+      $(document).ready(function() {
+		/* Highcharts code */     
+			    $('#container').highcharts({
+
+			        chart: {
+			        	type: 'spline'
+			        },
+			        
+			        title: {
+						text: 'Population growth latest 200 years, percent pr year'  
+					},
+
+					xAxis: [
+						{
+							/* Henter årene fra datasettet */
+							categories: ds.Dimension("Tid").id,
+							tickInterval: 10,
+						}
+					],
+
+					yAxis: [
+						{					
+								title: {
+								text: 'Percent'						
+							}
+						}
+					],
+
+					series:[
+					{
+						name: 'Yearly growth in %',
+						/* Show the values. As it is only one series you can use ds.value */
+						data: ds.value,
+						
+					},
+					],
+			    });
+			}
+			/* End Highcharts code */
+		);
+	}
+)
+
+
+	</script>
+
+	<p>Statistics Norway Statbank API. Post example using JSON-stat together with Highcharts <br />Use "View source" and "Browser console F12"</p>
+		<!-- 3. Add the container -->
+	<div id="container" style=" margin: 0 auto"></div>
+				
+	</body>
+</html>
