@@ -14,6 +14,30 @@
 
   </head>
   <body>
+
+    <p>** Refresh the page to reset the filters</p>
+    <div class="button-layout" id="btn-group" style="display: flex; align-items:center; flex-direction: row;">
+        <div style="padding: 12px;">
+        <p>Genre:</p>
+        <select class="form-control" id="genre" onchange="airportSelect(value)">
+            <option value="default">-- All genres --</option>
+        </select>
+        <br>
+    </div>
+    <div style="padding: 12px;">
+        <p>Author:</p>
+        <select class="form-control" id="author" onchange="yearSelect(value)">
+            <option value="default">-- All authors --</option>
+        </select>
+        <br>
+    </div>
+    <!-- <div style="padding: 12px;">
+        <p>Books:</p>
+        <select class="form-control" id="quart" onchange="quartSelect(value)">
+            <option value="default">-- All Books --</option>
+        </select>
+        <br>
+    </div> -->
         
     <figure class="highcharts-figure">
         <div id="container"></div>
@@ -75,6 +99,25 @@ function lookup(datapoint){
         let newdf = mapper(data)
         console.log(newdf)
 
+        // build dropdown - genre
+var g1 = document.getElementById('genre'); 
+    for (var i = 0; i < genre.length; i++) {
+        var optn = genre[i];
+        var el = document.createElement("option");
+        el.textContent = optn;
+        el.value = optn;
+        g1.appendChild(el);
+    }
+
+            // build dropdown - genre
+var g2 = document.getElementById('author'); 
+    for (var i = 0; i < author.length; i++) {
+        var optn = author[i];
+        var el = document.createElement("option");
+        el.textContent = optn;
+        el.value = optn;
+        g2.appendChild(el);
+    }
         Highcharts.chart('container', {
   chart: {
     type: 'spline',
