@@ -62,10 +62,14 @@
       let textDF = []
       let currentDF = []
 
+      let zerodf = []
+      let onedf= []
+
       function mapper(df) {
-        let newDF = [];
-        df.map((each) => newDF.push(lookup(each)));
-        return newDF;
+        df.map((each) => (lookup(each)));
+        let newdf = zerodf.concat(onedf)
+        //combine
+        return newdf;
       }
 
       function lookup(datapoint) {
@@ -79,12 +83,18 @@
           book.push(datapoint.Name);
         }
 
-        textDF.push([datapoint.Genre,datapoint.Author, datapoint.Name])
+        //textDF.push([datapoint.Genre,datapoint.Author, datapoint.Name])
 
         let gen1 = genre.indexOf(datapoint.Genre);
         let gen2 = author.indexOf(datapoint.Author);
         let gen3 = book.indexOf(datapoint.Name);
-        return [gen1, gen2, gen3];
+        let each =  [gen1, gen2, gen3];
+        if (each[0] === 0){
+            zerodf.push(each)
+        }
+        else{
+            onedf.push(each)
+        }
       }
 
      
@@ -126,7 +136,7 @@
             },
           },
           title: {
-            text: "grepS Version History effects",
+            text: "BOOKS",
           },
           plotOptions: {
             series: {
