@@ -194,11 +194,19 @@
         }
        let newdf =  currentDF.filter(each => each[0] === val[value])
        console.log(newdf)
-       chart.reload()
-       chart.redraw()
+       let dff = currentDF.map(function (set, i) {
+            return {
+              name: "Runner " + i,
+              data: set,
+              shadow: false,
+            };
+          })
+       chart.series[0].update({
+        dff
+    }, false, false, false);
        return newdf
       }
-      
+
     </script>
   </body>
   <style>
