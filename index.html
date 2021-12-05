@@ -158,7 +158,7 @@
             },
           },
           legend: {
-              enabled: true,
+              enabled: false,
           },
           
           xAxis: {
@@ -193,7 +193,7 @@
 
           series: currentDF.map(function (set, i) {
             return {
-                name: set[3].name + '<br> (' + set[3].author + ') <br> ' + 'Price: ' +set[3].Price ,
+                name: set[3].name + '<br> (' + set[3].author + ',' +  set[3].year  +  ') <br> ' + 'Price: ' +set[3].price + 'Reviews: ' +set[3].reviews ,
               data: [set[0], set[1], set[2]],
               shadow: false,
     //           tooltip: {
