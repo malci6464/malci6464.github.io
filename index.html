@@ -194,7 +194,7 @@
         }
        let newdf =  currentDF.filter(each => each[0] === val[value])
        console.log(newdf)
-       let dff = currentDF.map(function (set, i) {
+       let dff = newdf.map(function (set, i) {
             return {
               name: "Runner " + i,
               data: set,
