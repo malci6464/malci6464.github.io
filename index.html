@@ -129,12 +129,13 @@
               shadow: false,
             };
           })
-       chart.series[0].update({
+          var gchart = document.getElementById("container");
+       gchart.series[0].update({
         dff
     }, false, false, false);
        return newdf
       }
-      
+
         let chart = Highcharts.chart("container", {
           chart: {
             type: "spline",
