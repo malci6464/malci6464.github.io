@@ -36,6 +36,7 @@
   Highcharts.getJSON(
     './t2.json',
     function (data) {
+        console.log(data)
 
         Highcharts.chart('container', {
   chart: {
@@ -110,7 +111,7 @@
   series:data.map(function (set, i) {
                 return {
                     name: 'Runner ' + i,
-                    data: set,
+                    data: [set.Genre, set.Author, set.Name],
                     shadow: false
                 };
             })
@@ -120,8 +121,8 @@
 })
     })
 
-console.log(data)
     </script>
+
 
   </body>
   <style>
