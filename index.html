@@ -188,15 +188,15 @@
               categories: book,
             },
           ],
+          colors: ['rgba(11, 200, 200, 0.1)'],
 
           series: currentDF.map(function (set, i) {
             return {
                 name: set[3].name,
               data: [set[0], set[1], set[2]],
               shadow: false,
-              tooltip: {
-        pointFormat: '{}: <b>{set[3].price}</b><br/>',
-          },
+             
+              
             };
           }),
         });
