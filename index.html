@@ -7,30 +7,32 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/data.js"></script>
-<script src="https://code.highcharts.com/modules/parallel-coordinates.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/parallel-coordinates.js"></script>
 
     <title>BOOKS</title>
-
   </head>
   <body>
-
     <p>** Refresh the page to reset the filters</p>
-    <div class="button-layout" id="btn-group" style="display: flex; align-items:center; flex-direction: row;">
-        <div style="padding: 12px;">
+    <div
+      class="button-layout"
+      id="btn-group"
+      style="display: flex; align-items: center; flex-direction: row"
+    >
+      <div style="padding: 12px">
         <p>Genre:</p>
-        <select class="form-control" id="genre" onchange="airportSelect(value)">
-            <option value="default">-- All genres --</option>
+        <select class="form-control" id="genre" onchange="removeGenre(value)">
+          <option value="default">-- All genres --</option>
         </select>
-        <br>
-    </div>
-    <div style="padding: 12px;">
+        <br />
+      </div>
+      <div style="padding: 12px">
         <p>Author:</p>
         <select class="form-control" id="author" onchange="yearSelect(value)">
-            <option value="default">-- All authors --</option>
+          <option value="default">-- All authors --</option>
         </select>
-        <br>
-    </div>
+        <br />
+      </div>
     </div>
     <!-- <div style="padding: 12px;">
         <p>Books:</p>
@@ -39,196 +41,181 @@
         </select>
         <br>
     </div> -->
-        
-        <div clas="container"></div>
-        <p class="highcharts-description">
-            Chart showing an example of a parallel coordinate plot. This type of
-            visualization is commonly used to show multivariate data, and can help
-            analyze large datasets to find patterns and correlations.
-        </p>
-    
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+    <p class="highcharts-description">
+      Chart showing an example of a parallel coordinate plot. This type of
+      visualization is commonly used to show multivariate data, and can help
+      analyze large datasets to find patterns and correlations.
+    </p>
+</figure>
 
 
+    <script>
+      //         fetch('./t2.json')
+      //   .then(response => response.json())
+      //   .then(data => console.log(data));
 
+      let genre = [];
+      let author = [];
+      let book = [];
+      let textDF = []
+      let currentDF = []
 
-    <script >
-//         fetch('./t2.json')
-//   .then(response => response.json())
-//   .then(data => console.log(data));
+      function mapper(df) {
+        let newDF = [];
+        df.map((each) => newDF.push(lookup(each)));
+        return newDF;
+      }
 
-let genre = []
-    let author = []
-    let book = []
+      function lookup(datapoint) {
+        if (genre.indexOf(datapoint.Genre) === -1) {
+          genre.push(datapoint.Genre);
+        }
+        if (author.indexOf(datapoint.Author) === -1) {
+          author.push(datapoint.Author);
+        }
+        if (book.indexOf(datapoint.Name) === -1) {
+          book.push(datapoint.Name);
+        }
 
-function mapper(df){
-    let newDF= []
-    //map cat1
-    df.map( each => newDF.push(lookup(each)))
-    console.log(newDF)
-    return newDF
-}
+        textDF.push([datapoint.Genre,datapoint.Author, datapoint.Name])
 
-function lookup(datapoint){
-    
-    if(genre.indexOf(datapoint.Genre) === -1){
-     genre.push(datapoint.Genre)
-    }
-    if(author.indexOf(datapoint.Author) === -1){
-     author.push(datapoint.Author)
-    }
-    if(book.indexOf(datapoint.Name) === -1){
-     book.push(datapoint.Name)
-    }
-    
-    let gen1 = genre.indexOf(datapoint.Genre)
-    let gen2 = author.indexOf(datapoint.Author)
-    let gen3 = book.indexOf(datapoint.Name)
-    return [gen1, gen2, gen3]
-}
+        let gen1 = genre.indexOf(datapoint.Genre);
+        let gen2 = author.indexOf(datapoint.Author);
+        let gen3 = book.indexOf(datapoint.Name);
+        return [gen1, gen2, gen3];
+      }
 
+      function removeGenre(value){
+        let val ={
+            'Non Fiction' : 0,
+            'Fiction' : 1
+        }
+       let newdf =  currentDF.filter(each => each[0] === val[value])
+       console.log(newdf)
+       chart.reload()
+       chart.redraw()
+       return newdf
+      }
 
-function removeGenre(){}
+      function selectAuthor() {}
 
-function selectAuthor(){}
-
-
-
-  Highcharts.getJSON(
-    './t2.json',
-    function (data) {
-
-        let newdf = mapper(data)
-        console.log(newdf)
+      Highcharts.getJSON("./t2.json", function (data) {
+        currentDF = mapper(data);
+        //console.log(newdf);
 
         // build dropdown - genre
-var g1 = document.getElementById('genre'); 
-    for (var i = 0; i < genre.length; i++) {
-        var optn = genre[i];
-        var el = document.createElement("option");
-        el.textContent = optn;
-        el.value = optn;
-        g1.appendChild(el);
-    }
-
-            // build dropdown - genre
-var g2 = document.getElementById('author'); 
-    for (var i = 0; i < author.length; i++) {
-        var optn = author[i];
-        var el = document.createElement("option");
-        el.textContent = optn;
-        el.value = optn;
-        g2.appendChild(el);
-    }
-        Highcharts.chart('container', {
-  chart: {
-    type: 'spline',
-    parallelCoordinates: true,
-    parallelAxes: {
-      lineWidth: 2
-    }
-  },
-  title: {
-    text: 'grepS Version History effects'
-  },
-  plotOptions: {
-    series: {
-      animation: false,
-      marker: {
-        enabled: false,
-        states: {
-          hover: {
-            enabled: false
-          }
+        var g1 = document.getElementById("genre");
+        for (var i = 0; i < genre.length; i++) {
+          var optn = genre[i];
+          var el = document.createElement("option");
+          el.textContent = optn;
+          el.value = optn;
+          g1.appendChild(el);
         }
-      },
-      states: {
-        hover: {
-          halo: {
-            size: 0
-          }
+
+        // build dropdown - genre
+        var g2 = document.getElementById("author");
+        for (var i = 0; i < author.length; i++) {
+          var optn = author[i];
+          var el = document.createElement("option");
+          el.textContent = optn;
+          el.value = optn;
+          g2.appendChild(el);
         }
-      },
-      
-    }
-  },
- 
-  xAxis: {
-  startOnTick: true,
-    categories: [
-      'Genre',
-      'Author ',
-      'Book',
-     
-    ],
-  },
-  yAxis: [{
-      type: 'category',
-      startOnTick: true,
-      min: 0,
-      max: 1,
-      categories: genre,
+        let chart = Highcharts.chart("container", {
+          chart: {
+            type: "spline",
+            parallelCoordinates: true,
+            parallelAxes: {
+              lineWidth: 2,
+            },
+          },
+          title: {
+            text: "grepS Version History effects",
+          },
+          plotOptions: {
+            series: {
+              animation: false,
+              marker: {
+                enabled: false,
+                states: {
+                  hover: {
+                    enabled: false,
+                  },
+                },
+              },
+              states: {
+                hover: {
+                  halo: {
+                    size: 0,
+                  },
+                },
+              },
+            },
+          },
 
-    },
-    
-    {
-      type: 'category',
-      startOnTick: true,
-    //   min: 0,
-    //   max: 600,
-      categories: author,
+          xAxis: {
+            startOnTick: true,
+            categories: ["Genre", "Author ", "Book"],
+          },
+          yAxis: [
+            {
+              type: "category",
+              startOnTick: true,
+              min: 0,
+              max: 1,
+              categories: genre,
+            },
 
-    },
-    {
-      type: 'category',
-      startOnTick: true,
-    //   min: 0,
-    //   max: 600,
-      categories: book
+            {
+              type: "category",
+              startOnTick: true,
+              //   min: 0,
+              //   max: 600,
+              categories: author,
+            },
+            {
+              type: "category",
+              startOnTick: true,
+              //   min: 0,
+              //   max: 600,
+              categories: book,
+            },
+          ],
 
-    },
-   
-  ],
-
-  series:newdf.map(function (set, i) {
-                return {
-                    name: 'Runner ' + i,
-                    data: set,
-                    shadow: false
-                };
-            })
-
-
-
-})
-    })
-
+          series: currentDF.map(function (set, i) {
+            return {
+              name: "Runner " + i,
+              data: set,
+              shadow: false,
+            };
+          }),
+        });
+      });
     </script>
-
-
   </body>
   <style>
-#container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 600px;
-    overflow: scroll;
-    
-}
-  
+    #container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-height: 600px;
+      overflow: scroll;
+    }
 
-#container-int {
-    width: 100%;
-    margin: 0 auto;
-    padding:12px;
-    height: 65%;
-}
+    #container-int {
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px;
+      height: 65%;
+    }
 
-#container-bar {
-    width: 95%;
-    
-    margin: 0 auto;
-}
+    #container-bar {
+      width: 95%;
 
+      margin: 0 auto;
+    }
   </style>
 </html>
