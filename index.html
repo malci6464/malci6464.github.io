@@ -192,10 +192,18 @@
 
           series: currentDF.map(function (set, i) {
             return {
-                name: set[3].name,
+                name: set[3].name + ' (' + set[3].author + ')',
               data: [set[0], set[1], set[2]],
               shadow: false,
-             
+    //           tooltip: {
+    //     useHTML: true,
+    //     headerFormat: '<table><tr><th colspan="2">{point.key}</th></tr>',
+    //     pointFormat: '<tr><td style="color: {series.color}">{series.name} </td>' +
+    //         '<td style="text-align: right"><b>{point.y} EUR</b></td></tr>',
+    //     footerFormat: '</table>',
+    //     valueDecimals: 2
+    // },
+
 
             };
           }),
