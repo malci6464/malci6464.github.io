@@ -114,6 +114,27 @@
           el.value = optn;
           g2.appendChild(el);
         }
+
+        function removeGenre(value){
+        let val ={
+            'Non Fiction' : 0,
+            'Fiction' : 1
+        }
+       let newdf =  currentDF.filter(each => each[0] === val[value])
+       console.log(newdf)
+       let dff = newdf.map(function (set, i) {
+            return {
+              name: "Runner " + i,
+              data: set,
+              shadow: false,
+            };
+          })
+       chart.series[0].update({
+        dff
+    }, false, false, false);
+       return newdf
+      }
+      
         let chart = Highcharts.chart("container", {
           chart: {
             type: "spline",
@@ -187,25 +208,7 @@
         });
       });
 
-      function removeGenre(value){
-        let val ={
-            'Non Fiction' : 0,
-            'Fiction' : 1
-        }
-       let newdf =  currentDF.filter(each => each[0] === val[value])
-       console.log(newdf)
-       let dff = newdf.map(function (set, i) {
-            return {
-              name: "Runner " + i,
-              data: set,
-              shadow: false,
-            };
-          })
-       chart.series[0].update({
-        dff
-    }, false, false, false);
-       return newdf
-      }
+      
 
     </script>
   </body>
@@ -214,7 +217,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      min-height: 600px;
+      min-height: 1200px;
       overflow: scroll;
     }
 
