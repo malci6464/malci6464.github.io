@@ -16,7 +16,7 @@
   <body>
 
     <p>** Refresh the page to reset the filters</p>
-    <div class="button-layout" id="btn-group" style="display: flex; align-items:center; flex-direction: columns;">
+    <div class="button-layout" id="btn-group" style="display: flex; align-items:center; flex-direction: row;">
         <div style="padding: 12px;">
         <p>Genre:</p>
         <select class="form-control" id="genre" onchange="airportSelect(value)">
@@ -31,6 +31,7 @@
         </select>
         <br>
     </div>
+    </div>
     <!-- <div style="padding: 12px;">
         <p>Books:</p>
         <select class="form-control" id="quart" onchange="quartSelect(value)">
@@ -39,7 +40,7 @@
         <br>
     </div> -->
         
-        <div id="container"></div>
+        <div clas="container"></div>
         <p class="highcharts-description">
             Chart showing an example of a parallel coordinate plot. This type of
             visualization is commonly used to show multivariate data, and can help
@@ -86,7 +87,9 @@ function lookup(datapoint){
 }
 
 
+function removeGenre(){}
 
+function selectAuthor(){}
 
 
 
@@ -212,11 +215,7 @@ var g2 = document.getElementById('author');
     overflow: scroll;
     
 }
-    ._33uTN37Cm0rdlcqTayvc-1 {
-    display: none;
-    }
-    body{
-    margin:0;}
+  
 
 #container-int {
     width: 100%;
