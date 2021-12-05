@@ -13,13 +13,12 @@
     <title>BOOKS</title>
   </head>
   <body>
-    <!-- <p>** Refresh the page to reset the filters</p>
     <div
       class="button-layout"
       id="btn-group"
       style="display: flex; align-items: center; flex-direction: row"
     >
-      <div style="padding: 12px">
+      <!-- <div style="padding: 12px">
         <p>Genre:</p>
         <select class="form-control" id="genre" onchange="removeGenre(value)">
           <option value="default">-- All genres --</option>
@@ -32,8 +31,8 @@
           <option value="default">-- All authors --</option>
         </select>
         <br />
-      </div>
-    </div> -->
+      </div> -->
+    </div>
     <!-- <div style="padding: 12px;">
         <p>Books:</p>
         <select class="form-control" id="quart" onchange="quartSelect(value)">
@@ -158,7 +157,9 @@
           legend: {
               enabled: false,
           },
-          
+          credits:{
+              enabled: false,
+          },
           xAxis: {
             startOnTick: true,
             categories: ["Genre", "Author ", "Book"],
@@ -191,7 +192,7 @@
 
           series: currentDF.map(function (set, i) {
             return {
-                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: ' +set[3].price + '<br>Reviews: ' +set[3].reviews ,
+                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: $' +set[3].price + '<br>Reviews: ' +set[3].reviews ,
               data: [set[0], set[1], set[2]],
               shadow: false,
     //           tooltip: {
