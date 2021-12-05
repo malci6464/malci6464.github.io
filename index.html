@@ -62,14 +62,10 @@
       let textDF = []
       let currentDF = []
 
-      let zerodf = []
-      let onedf= []
-
       function mapper(df) {
-        df.map((each) => (lookup(each)));
-        let newdf = zerodf.concat(onedf)
-        //combine
-        return newdf;
+        let newDF = [];
+        df.map((each) => newDF.push(lookup(each)));
+        return newDF;
       }
 
       function lookup(datapoint) {
@@ -88,13 +84,15 @@
         let gen1 = genre.indexOf(datapoint.Genre);
         let gen2 = author.indexOf(datapoint.Author);
         let gen3 = book.indexOf(datapoint.Name);
-        let each =  [gen1, gen2, gen3];
-        if (each[0] === 0){
-            zerodf.push(each)
+        let gen4 = {
+            rating : datapoint['User Rating'],
+            price : datapoint.Price,
+            year:  datapoint.Year,
+            reviews: datapoint.Reviews,
+            name: datapoint.Name
+
         }
-        else{
-            onedf.push(each)
-        }
+        return [gen1, gen2, gen3, gen4];
       }
 
      
@@ -192,8 +190,8 @@
 
           series: currentDF.map(function (set, i) {
             return {
-              name: "Runner " + i,
-              data: set,
+                name: set[3].name,
+              data: [set[0], set[1], set[2]],
               shadow: false,
             };
           }),
@@ -209,14 +207,14 @@
        console.log(newdf)
        let dff = newdf.map(function (set, i) {
             return {
-              name: "Runner " + i,
-              data: set,
+              name: set[3].name,
+              data: [set[0], set[1], set[2]],
               shadow: false,
             };
           })
           var gchart = document.getElementById("container");
        gchart.series[0].update({
-        zerodf
+        dff
     }, false, false, false);
        return newdf
       }
