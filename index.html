@@ -159,6 +159,7 @@
           legend: {
               enabled: true,
           },
+          
           xAxis: {
             startOnTick: true,
             categories: ["Genre", "Author ", "Book"],
@@ -193,6 +194,9 @@
                 name: set[3].name,
               data: [set[0], set[1], set[2]],
               shadow: false,
+              tooltip: {
+        pointFormat: '{}: <b>{point.y}</b><br/>',
+          },
             };
           }),
         });
