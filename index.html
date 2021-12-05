@@ -33,10 +33,47 @@
 //   .then(response => response.json())
 //   .then(data => console.log(data));
 
+let genre = []
+    let author = []
+    let book = []
+
+function mapper(df){
+    let newDF= []
+    //map cat1
+    df.map( each => newDF.push(lookup(each)))
+    console.log(newDF)
+    return newDF
+}
+
+function lookup(datapoint){
+    
+    if(genre.indexOf(datapoint.Genre) === -1){
+     genre.push(datapoint.Genre)
+    }
+    if(author.indexOf(datapoint.Author) === -1){
+     author.push(datapoint.Author)
+    }
+    if(book.indexOf(datapoint.Name) === -1){
+     book.push(datapoint.Name)
+    }
+    
+    let gen1 = genre.indexOf(datapoint.Genre)
+    let gen2 = author.indexOf(datapoint.Author)
+    let gen3 = book.indexOf(datapoint.Name)
+    return [gen1, gen2, gen3]
+}
+
+
+
+
+
+
   Highcharts.getJSON(
     './t2.json',
     function (data) {
-        console.log(data)
+
+        let newdf = mapper(data)
+        console.log(newdf)
 
         Highcharts.chart('container', {
   chart: {
@@ -93,7 +130,7 @@
       type: 'category',
       startOnTick: true,
       min: 0,
-      max: 1,
+      max: 600,
       categories: ['JJ Smith', 'Stephen King'],
 
     },
@@ -101,17 +138,17 @@
       type: 'category',
       startOnTick: true,
       min: 0,
-      max: 1,
+      max: 600,
       categories: ["10-Day Green Smoothie Cleanse", "11/22/63: A Novel"]
 
     },
    
   ],
 
-  series:data.map(function (set, i) {
+  series:newdf.map(function (set, i) {
                 return {
                     name: 'Runner ' + i,
-                    data: [set.Genre, set.Author, set.Name],
+                    data: set,
                     shadow: false
                 };
             })
