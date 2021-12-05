@@ -146,7 +146,7 @@
             text: "Amazon Bookshelf",
           },
           subtitle:{
-              text: 'Non Fiction'
+              text: ' Hover over the chart to reveal information about each book.'
           },
           plotOptions: {
             series: {
@@ -206,7 +206,7 @@
 
           series: zr.map(function (set, i) {
             return {
-                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: $' +set[3].price + '<br>Reviews: ' +set[3].reviews ,
+                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: $' +set[3].price + '<br>Reviews: ' +set[3].reviews + '<br>Rating: ' +set[3].rating ,
               data: [set[0], set[1], set[2]],
               shadow: false,
     //           tooltip: {
@@ -233,9 +233,6 @@
           },
           title: {
             text: null,
-          },
-          subtitle:{
-              text: 'Fiction'
           },
           plotOptions: {
             series: {
@@ -295,7 +292,7 @@
 
           series: one.map(function (set, i) {
             return {
-                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: $' +set[3].price + '<br>Reviews: ' +set[3].reviews ,
+                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: $' +set[3].price + '<br>Reviews: ' +set[3].reviews + '<br>Rating: ' +set[3].rating ,
               data: [set[0], set[1], set[2]],
               shadow: false,
     //           tooltip: {
