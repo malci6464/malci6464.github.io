@@ -13,7 +13,7 @@
     <title>BOOKS</title>
   </head>
   <body>
-    <p>** Refresh the page to reset the filters</p>
+    <!-- <p>** Refresh the page to reset the filters</p>
     <div
       class="button-layout"
       id="btn-group"
@@ -33,7 +33,7 @@
         </select>
         <br />
       </div>
-    </div>
+    </div> -->
     <!-- <div style="padding: 12px;">
         <p>Books:</p>
         <select class="form-control" id="quart" onchange="quartSelect(value)">
@@ -44,9 +44,7 @@
     <figure class="highcharts-figure">
         <div id="container"></div>
     <p class="highcharts-description">
-      Chart showing an example of a parallel coordinate plot. This type of
-      visualization is commonly used to show multivariate data, and can help
-      analyze large datasets to find patterns and correlations.
+     Hover over the chart to reveal information about each book.
     </p>
 </figure>
 
@@ -193,7 +191,7 @@
 
           series: currentDF.map(function (set, i) {
             return {
-                name: set[3].name + '<br> (' + set[3].author + ',' +  set[3].year  +  ') <br> ' + 'Price: ' +set[3].price + 'Reviews: ' +set[3].reviews ,
+                name: set[3].name + '<br> (' + set[3].author + ', ' +  set[3].year  +  ') <br> ' + 'Price: ' +set[3].price + '<br>Reviews: ' +set[3].reviews ,
               data: [set[0], set[1], set[2]],
               shadow: false,
     //           tooltip: {
