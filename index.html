@@ -44,7 +44,6 @@
         <div id="container"></div>
         <div id="container1"></div>
     <p class="highcharts-description">
-     Hover over the chart to reveal information about each book.
     </p>
 </figure>
 
@@ -108,7 +107,7 @@
 
       function selectAuthor() {}
 
-      Highcharts.getJSON("./t2.json", function (data) {
+      Highcharts.getJSON("./t22.json", function (data) {
         currentDF = mapper(data);
         //console.log(newdf);
 
@@ -176,7 +175,7 @@
           },
           xAxis: {
             startOnTick: true,
-            //categories: ["Genre", "Author ", "Book"],
+            categories: ["Genre", "Author ", "Book"],
           },
           yAxis: [
             {
