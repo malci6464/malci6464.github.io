@@ -6,25 +6,27 @@ ComputedRelationships(){
 if(States.voucher.voucherValid){
   then States.session.expired = false
 }
+	
+//toggle state - defined props - enumerate number of states
 
 
 //create toggle functions - comp properties - series of heirarchical guards
 
 States: {
 	voucher: {
-    voucherValid : Boolean, 
+    		voucherValid : Boolean, 
   },
-	session : {
-      activated: Boolean,
-      paused: Boolean,
-      expired: Boolean,
-      deviceCountUnderMax: Boolean,
+  	session : {
+      		activated: Boolean,
+      		paused: Boolean,
+      		expired: Boolean,
+      		deviceCountUnderMax: Boolean,
   },
-  pack:{
-    pauseFacilityEnabled: Boolean
+  	pack:{
+    		pauseFacilityEnabled: Boolean
   },
 	thisDevice: {
-    online: Boolean, 
+   	 	online: Boolean, 
   },
 }
 
