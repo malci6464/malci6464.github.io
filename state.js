@@ -1,5 +1,37 @@
-//xstate
+// state tables
+// state guards before each change of state
 
+//request 
+connect - pause - disconnect
+
+connectActions = { previouslyActivatedCheck, timeRemainingCheck, maxDevicesCheck, refundedCheck} //pausestatenotrelevant
+pauseActions = {timeRemainingCheck}
+
+//xstate
+//services - checks
+const connectCheck = {
+	check if voucher has been activated (in active pool of vouchers) => updateSucessProps => send successConnect update
+	check if voucher has time remaining (implies activation)
+	check if refunded (implies valid)
+	// paused not relevant here
+}
+//actions - assign vals - redirect
+add SuccessProps = {paused=false, expired=false,cancelled/refunded=false}
+add pausedProps = {paused=true, expired=false,cancelled/refunded=false}
+add expiredProps = {paused=false, expired=true,cancelled/refunded=false}
+add maxDeviceProps = {paused=false, expired=false,cancelled/refunded=false, maxDevicesExceeded = true}
+?refunded?
+	
+
+//events - composed of actions
+send expiredUpdate = {text}
+send invalidUpdate
+send successConnect update
+	
+	
+// potential of approved groups - much less checks
+	
+	
 Cases :[connectRequest(), pauseRequest()] 
 
 ComputedRelationships(){
