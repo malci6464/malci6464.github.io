@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a7354f92.css",
+    "main.js": "/static/js/main.5567f0f6.js",
+    "static/js/787.e8e826a5.chunk.js": "/static/js/787.e8e826a5.chunk.js",
+    "static/media/europe.geojson": "/static/media/europe.333da6740ca859573654.geojson",
+    "index.html": "/index.html",
+    "main.a7354f92.css.map": "/static/css/main.a7354f92.css.map",
+    "main.5567f0f6.js.map": "/static/js/main.5567f0f6.js.map",
+    "787.e8e826a5.chunk.js.map": "/static/js/787.e8e826a5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a7354f92.css",
+    "static/js/main.5567f0f6.js"
+  ]
+}
