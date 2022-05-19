@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "https://malci6464.github.io/covid-air-app/static/css/main.7ee465b7.css",
-    "main.js": "https://malci6464.github.io/covid-air-app/static/js/main.c5892d30.js",
+    "main.css": "https://malci6464.github.io/covid-air-app/static/css/main.c10501ef.css",
+    "main.js": "https://malci6464.github.io/covid-air-app/static/js/main.fc8f9152.js",
     "static/js/787.8c2da3ac.chunk.js": "https://malci6464.github.io/covid-air-app/static/js/787.8c2da3ac.chunk.js",
     "static/media/europe.geojson": "https://malci6464.github.io/covid-air-app/static/media/europe.333da6740ca859573654.geojson",
     "index.html": "https://malci6464.github.io/covid-air-app/index.html",
-    "main.7ee465b7.css.map": "https://malci6464.github.io/covid-air-app/static/css/main.7ee465b7.css.map",
-    "main.c5892d30.js.map": "https://malci6464.github.io/covid-air-app/static/js/main.c5892d30.js.map",
+    "main.c10501ef.css.map": "https://malci6464.github.io/covid-air-app/static/css/main.c10501ef.css.map",
+    "main.fc8f9152.js.map": "https://malci6464.github.io/covid-air-app/static/js/main.fc8f9152.js.map",
     "787.8c2da3ac.chunk.js.map": "https://malci6464.github.io/covid-air-app/static/js/787.8c2da3ac.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7ee465b7.css",
-    "static/js/main.c5892d30.js"
+    "static/css/main.c10501ef.css",
+    "static/js/main.fc8f9152.js"
   ]
 }
